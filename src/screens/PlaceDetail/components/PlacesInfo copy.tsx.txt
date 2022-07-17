@@ -1,0 +1,75 @@
+import React, { forwardRef, memo, useCallback } from "react";
+import {
+  FlatList,
+  FlatListProps,
+  ListRenderItem,
+  StyleSheet,Text
+} from "react-native";
+import Animated from "react-native-reanimated";
+import ConnectionItem from "./ConnectionItem";
+import { Connection } from "../types/Connection";
+import { View } from "react-native-animatable";
+import useTheme from "../../../theme/useTheme";
+import useThemedStyles from "../../../theme/useThemedStyles";
+import StyledText from "../../../components/atoms/label/Label";
+import { SIZES } from "../../../theme/config";
+
+export const AnimatedFlatList: typeof FlatList = Animated.createAnimatedComponent(
+  FlatList,
+);
+
+interface PlacesInfoProps {
+  item: any
+}
+
+type Props = Omit<FlatListProps<Connection>, "renderItem">;
+
+const PlacesInfo = forwardRef<FlatList, Props>((props, ref) => {
+  console.log(props)
+  const theme = useTheme();
+  const style = useThemedStyles(styles);
+  const keyExtractor = useCallback((_, index) => index.toString(), []);
+
+  const renderItem = useCallback<ListRenderItem<Connection>>(
+    ({ item }) => <PlacesInfo item={item} />,
+    []
+  );
+
+  const PlacesInfo = ({ item }: PlacesInfoProps) => {
+    return (
+      <View>
+        <View style={style.header}>
+          <View style={style.category}>
+            <StyledText size={SIZES.small} color={theme?.colors.PRIMARY}>ENTERTAINMENT</StyledText>
+          </View>
+        </View>
+
+        <Text>{item.name}</Text>
+      </View>
+    );
+  };
+
+  return (
+    <AnimatedFlatList
+      ref={ref}
+      style={style.container}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      {...props}
+    />
+  );
+});
+
+const styles = (theme: any) => StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.BACKGROUND,
+    flex: 1,
+    padding: 16
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
+
+export default memo(PlacesInfo);
