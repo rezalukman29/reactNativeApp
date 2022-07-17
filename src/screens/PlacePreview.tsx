@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { Back } from '../assets/svgIcon';
@@ -27,7 +27,7 @@ const PlacePreviewScreen = ({ route, navigation }: any) => {
 
 
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       <Image
         source={{ uri: background ?? DEFAULT_PHOTO }}
         style={[StyleSheet.absoluteFillObject, { opacity: 1 }]}
@@ -37,8 +37,9 @@ const PlacePreviewScreen = ({ route, navigation }: any) => {
         colors={['transparent', '#000']}
         style={style.infoWrapper}>
         <View style={{ alignSelf: 'flex-start', padding: 16, top: 20 }}>
-          <StyledText size={42} color={"#ffffff"} weight={FONTS.pro}>{item.name}</StyledText>
-          <View style={{height: 60}}>
+          <StyledText size={24} color={"#ffffff"} weight={FONTS.light}>{item.name}</StyledText>
+          <Spacer s/>
+          <View style={{height: 60,}}>
             <ScrollView horizontal>
               {Array.isArray(IMG_DATA) && IMG_DATA.map((item: any, index: number) => {
                 return (
@@ -88,7 +89,7 @@ const PlacePreviewScreen = ({ route, navigation }: any) => {
 
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 

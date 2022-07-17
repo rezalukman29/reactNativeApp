@@ -25,7 +25,7 @@ const HomeScreen = ({ navigation, category, fetchResources, updateLocation, user
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
-console.log(category)
+
   React.useEffect(() => {
     const unsubscribe = fetchResources();
     return unsubscribe;

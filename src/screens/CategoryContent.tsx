@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Spacer from '../components/atoms/Spacer';
 import { DefaultHoc } from '../components/hoc/DefaultHOC';
 import TopBackNavigation from '../components/molecules/header/TopBackNavigation';
@@ -38,7 +39,7 @@ const CategoryContentScreen = ({ route, navigation, category, fetchPlaces, place
 
 
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       <TopBackNavigation
         title={'Places by Category'}
       />
@@ -54,7 +55,7 @@ const CategoryContentScreen = ({ route, navigation, category, fetchPlaces, place
         toPlaceDetail={handleToPlacePreview}
       />
 
-    </View>
+    </SafeAreaView>
   );
 };
 

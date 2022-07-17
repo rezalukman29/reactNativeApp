@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import useTheme from '../theme/useTheme';
 import useThemedStyles from '../theme/useThemedStyles';
 
@@ -9,9 +9,9 @@ const ExploreScreen = (props: ExploreScreenProps) => {
     const theme = useTheme();
     const style = useThemedStyles(styles);
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       <Text>ExploreScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

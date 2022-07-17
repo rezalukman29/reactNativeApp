@@ -4,7 +4,7 @@ import {
   FlatListProps,
   Image,
   ListRenderItem,
-  StyleSheet, Text
+  StyleSheet, Text, TouchableHighlight
 } from "react-native";
 import Animated from "react-native-reanimated";
 import ConnectionItem from "./ConnectionItem";
@@ -12,7 +12,7 @@ import { Connection } from "../types/Connection";
 import { View } from "react-native-animatable";
 import useTheme from "../../../theme/useTheme";
 import useThemedStyles from "../../../theme/useThemedStyles";
-import { FONTS, PADDING, SHADOWS, SIZES, SPACING, SPACING_HALF, width, WIDTH_BOX } from "../../../theme/config";
+import { FONTS, ICON_BUTTON, PADDING, SHADOWS, SIZES, SPACING, SPACING_HALF, width, WIDTH_BOX } from "../../../theme/config";
 import { ScrollView } from "react-native-gesture-handler";
 import { getRandomLightColor } from "../../../utils/function";
 // import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -20,6 +20,9 @@ import StyledText from "../../../components/atoms/text/Label";
 import StarIcon from "../../../assets/icons/StarIcon";
 import { EntryAnimation } from "../../../animation/EntryAnimation";
 import ActivityIcon from "../../../assets/icons/ActivityIcon";
+import Spacer from "../../../components/atoms/Spacer";
+import BackSecondaryIcon from "../../../assets/icons/BackSecondaryIcon";
+import { useNavigation } from "@react-navigation/native";
 
 
 export const AnimatedFlatList: typeof FlatList = Animated.createAnimatedComponent(
@@ -33,6 +36,7 @@ interface PlacesInfoProps {
 type Props = Omit<FlatListProps<Connection>, "renderItem">;
 
 const PlacesInfo = forwardRef<FlatList, Props>((props, ref) => {
+  const navigation = useNavigation();
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const keyExtractor = useCallback((_, index) => index.toString(), []);
@@ -47,20 +51,32 @@ const PlacesInfo = forwardRef<FlatList, Props>((props, ref) => {
     const style = useThemedStyles(styles);
     return (
       <View>
-
+        <Spacer s />
         {/* Header */}
         <View style={{ paddingHorizontal: SPACING }}>
           <EntryAnimation index={0}>
             <View style={style.header}>
-              <View style={style.category}>
-                <StyledText size={SIZES.small} color={theme?.colors.PRIMARY} weight={FONTS.semiBold}>ENTERTAINMENT</StyledText>
+              <View>
+                <View style={style.category}>
+                  <StyledText size={SIZES.small} color={theme?.colors.PRIMARY} weight={FONTS.semiBold}>ENTERTAINMENT</StyledText>
+                </View>
               </View>
+
               <View style={style.rating}>
                 <View style={{ paddingHorizontal: 4 }}>
                   <StyledText size={SIZES.extraLarge} color={theme?.colors.PRIMARY} weight={FONTS.light}>4.8</StyledText>
                 </View>
 
                 <StarIcon color={'#FFD700'} size={24} />
+                <TouchableHighlight
+                  underlayColor={theme?.colors.SECONDARY}
+                  style={style.backButton}
+                  onPress={() => {
+                    navigation.goBack()
+                  }}>
+                  <BackSecondaryIcon color={theme?.colors.PRIMARY} size={ICON_BUTTON} />
+                </TouchableHighlight>
+
 
               </View>
             </View>
@@ -166,6 +182,14 @@ const styles = (theme: any) => StyleSheet.create({
   rating: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  backButton: {
+    borderRadius: 12,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#FFFFFF50',
   }
 });
 

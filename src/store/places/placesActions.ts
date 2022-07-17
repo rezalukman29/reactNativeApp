@@ -31,6 +31,7 @@ export const formFetchPlaces = () => {
         try {
             const service = new GenericService(`places`);
             const result = await service.get();
+
             dispatch(fetchPlacesSuccess(result))
             return Promise.resolve(result)
         } catch (error) {

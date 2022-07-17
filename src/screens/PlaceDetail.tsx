@@ -16,6 +16,8 @@ import {
   useWindowDimensions,
   Image,
   ImageBackground,
+  TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
 import Animated, {
   interpolate,
@@ -46,7 +48,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import useTheme from '../theme/useTheme';
 import useThemedStyles from '../theme/useThemedStyles';
-import { DEFAULT_PHOTO, FONTS, height, SIZES, width } from '../theme/config';
+import { DEFAULT_PHOTO, FONTS, height, ICON_BUTTON, SIZES, width } from '../theme/config';
 import PlacesInfo from './PlaceDetail/components/PlacesInfo';
 import { RootStackParams } from '../navigation/AppTabNavigator';
 import InfoIcon from '../assets/icons/InfoIcon';
@@ -54,6 +56,8 @@ import ActivityIcon from '../assets/icons/ActivityIcon';
 import GalleryIcon from '../assets/icons/GalleryIcon';
 import StyledText from '../components/atoms/text/Label';
 import Header from './PlaceDetail/components/Header';
+import TopBackTransparent from '../components/molecules/header/TopBackTransparent';
+import BackSecondaryIcon from '../assets/icons/BackSecondaryIcon';
 
 
 
@@ -233,6 +237,9 @@ const PlaceDetailScreen: React.FC<Props> = ({ route, navigation }: any) => {
     ],
     [collapsedOverlayAnimatedStyle, heightCollapsed, top]
   );
+
+  const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+
   return (
     <View style={style.container}>
       <Animated.View onLayout={handleHeaderLayout} style={headerContainerStyle}>
@@ -241,7 +248,10 @@ const PlaceDetailScreen: React.FC<Props> = ({ route, navigation }: any) => {
           bio={item.city}
           photo={item.photo}
         /> */}
-        <ImageBackground style={{width: width, height: height / 4}} source={{ uri: item.photo ?? DEFAULT_PHOTO }} >
+        <ImageBackground style={{ width: width, height: height / 4 }} source={{ uri: item.photo ?? DEFAULT_PHOTO }} >
+          <AnimatedTouchable onPress={() => navigation.goBack()}>
+       
+          </AnimatedTouchable>
         </ImageBackground>
       </Animated.View>
 
@@ -274,7 +284,7 @@ const PlaceDetailScreen: React.FC<Props> = ({ route, navigation }: any) => {
           options={{
             tabBarIcon: ({ focused }: any) =>
               focused ? (
-                <View style={{ flexDirection: 'row', marginLeft: -20, width: width / 3,alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', marginLeft: -20, width: width / 3, alignItems: 'center' }}>
                   <InfoIcon color={theme?.colors.PRIMARY} size={20} />
                   <View style={{ marginLeft: 4 }}>
                     <StyledText size={SIZES.small} color={theme?.colors.PRIMARY} weight={FONTS.semiBold}>Info</StyledText>
@@ -289,7 +299,7 @@ const PlaceDetailScreen: React.FC<Props> = ({ route, navigation }: any) => {
           options={{
             tabBarIcon: ({ focused }: any) =>
               focused ? (
-                <View style={{ flexDirection: 'row', marginLeft: -30, width: width / 3,alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', marginLeft: -30, width: width / 3, alignItems: 'center' }}>
                   <ActivityIcon color={theme?.colors.PRIMARY} size={20} />
                   <View style={{ marginLeft: 4 }}>
                     <StyledText size={SIZES.small} color={theme?.colors.PRIMARY} weight={FONTS.semiBold}>Review</StyledText>
@@ -305,7 +315,7 @@ const PlaceDetailScreen: React.FC<Props> = ({ route, navigation }: any) => {
           options={{
             tabBarIcon: ({ focused }: any) =>
               focused ? (
-                <View style={{ flexDirection: 'row', marginLeft: -24, width: width / 3,alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', marginLeft: -24, width: width / 3, alignItems: 'center' }}>
                   <GalleryIcon color={theme?.colors.PRIMARY} size={20} />
                   <View style={{ marginLeft: 4 }}>
                     <StyledText size={SIZES.small} color={theme?.colors.PRIMARY} weight={FONTS.semiBold}>Gallery</StyledText>
@@ -317,7 +327,7 @@ const PlaceDetailScreen: React.FC<Props> = ({ route, navigation }: any) => {
               ),
           }}
           name="Gallery">{renderSuggestions}</Tab.Screen>
-      </Tab.Navigator> 
+      </Tab.Navigator>
     </View>
   );
 };
@@ -355,4 +365,14 @@ const styles = (theme: any) => StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
+  backButton: {
+    borderRadius: 12,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#FFFFFF50',
+    // opacity: .2
+
+}
 });
