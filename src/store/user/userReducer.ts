@@ -5,11 +5,23 @@ interface LocationPropsI {
     longitude: any;
     city: string;
     state: string;
-    country: string
+    country: string;
+}
+
+export interface UserDetailsI {
+    name: string;
+    username: string;
+    email: string;
+    avatar: string;
+    latitude: any;
+    longitude: any;
+    preference: any;
 }
 
 export interface UserStateI {
     location: LocationPropsI;
+    userDetails: UserDetailsI;
+    isLogin: boolean;
 }
 
 const UserState: UserStateI = {
@@ -19,7 +31,17 @@ const UserState: UserStateI = {
         city: "",
         state: "",
         country: ""
-    }
+    },
+    userDetails: {
+        name: "",
+        username: "",
+        email: "",
+        avatar: "",
+        latitude: "",
+        longitude: "",
+        preference: "",
+    },
+    isLogin: false
 }
 
 type UserAction = UpdateLocationI 

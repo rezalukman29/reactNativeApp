@@ -38,7 +38,7 @@ const CategoryList = ({ category, toCategoryContent }: CategoryListProps) => {
             </View>
             <ScrollView horizontal>
                 {Array.isArray(categoryData) && categoryData.map((item: any, index: number) => (
-                    <EntryAnimation index={index + 1}>
+                    <EntryAnimation index={index + 1} key={index}>
                         <TouchableOpacity onPress={() => toCategoryContent({ categoryId: item.id, name: item.name })}>
                             <ImageBackground source={{ uri: item.description ? item.description : DEFAULT_PHOTO }}
                                 style={style.categoryBar}

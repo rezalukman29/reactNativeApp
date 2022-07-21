@@ -12,6 +12,7 @@ import ActivityScreen from '../screens/Activity';
 import CategoryContent from '../screens/CategoryContent';
 import ExploreScreen from '../screens/Explore';
 import HomeScreen from '../screens/Home';
+import LoginScreen from '../screens/Login';
 import PlaceDetailScreen from '../screens/PlaceDetail';
 import PlacePreviewScreen from '../screens/PlacePreview';
 import PromotionScreen from '../screens/Promotion';
@@ -48,12 +49,13 @@ export type HomeStackParams = {
     },
     PlacePreview: {
         placeData: any
-    }
+    },
+    Login: undefined;
 }
 const HomeStack = createNativeStackNavigator<HomeStackParams>();
 const HomeScreenStack = ({ navigation, route }: any) => {
     React.useLayoutEffect(() => {
-        const tabHiddenRoutes = ["PlaceDetail", "CategoryContent","PlacePreview"];
+        const tabHiddenRoutes = ["PlaceDetail", "CategoryContent","PlacePreview","Login"];
 
         if (tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))) {
             navigation.setOptions({ tabBarVisible: false });
@@ -69,6 +71,7 @@ const HomeScreenStack = ({ navigation, route }: any) => {
             <HomeStack.Screen name="CategoryContent" component={CategoryContent} />
             <HomeStack.Screen name="PlacePreview" component={PlacePreviewScreen} />
             <HomeStack.Screen name="PlaceDetail" component={PlaceDetailScreen} />
+            <HomeStack.Screen name="Login" component={LoginScreen} />
             {/* <FeedStack.Screen name="Place" component={PlaceScreen} />
 
         <FeedStack.Screen name="PlaceDetail" component={PlaceDetailScreen} initialParams={{ placeData: {} }} options={({ navigation }) => ({

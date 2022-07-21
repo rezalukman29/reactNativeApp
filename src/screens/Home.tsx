@@ -35,15 +35,19 @@ const HomeScreen = ({ navigation, category, fetchResources, updateLocation, user
     console.log(payload)
   }
 
+  const toLoginScreen = () => {
+    navigation.navigate('Login')
+  }
+
   const handleToCategoryContent = (payload: any) => {
     navigation.push('CategoryContent', payload)
   }
-
+console.log(user)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <EntryAnimation index={0}>
-          <HomeHeader onSearch={handleSearch} />
+          <HomeHeader onSearch={handleSearch} user={user} toLoginScreen={toLoginScreen}/>
           <Spacer s />
           <CategoryList category={category} toCategoryContent={handleToCategoryContent} />
         </EntryAnimation>

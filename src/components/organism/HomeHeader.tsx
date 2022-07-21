@@ -11,9 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootStackParams } from "../../navigation/AppTabNavigator";
 // Constants
+interface HomeHeaderI {
+  onSearch: (e: any) => void;
+  user: any;
+  toLoginScreen: () => void;
+}
 
-
-const HomeHeader = ({ onSearch }: any) => {
+const HomeHeader = ({ onSearch, user, toLoginScreen }: HomeHeaderI) => {
+  const {isLogin, userDetails } = user;
   const navigation = useNavigation<DrawerNavigationProp<RootStackParams>>();
   const theme = useTheme();
   return (
@@ -36,7 +41,7 @@ const HomeHeader = ({ onSearch }: any) => {
 
         <View style={{ width: 45, height: 45 }}>
           <IconButton profilePicture uri={images.User} onPress={() => {
-            navigation.openDrawer();
+            isLogin? navigation.openDrawer() : toLoginScreen()
           }} />
           <Image
             source={assets.badge}
