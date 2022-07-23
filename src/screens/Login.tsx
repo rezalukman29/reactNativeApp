@@ -15,60 +15,31 @@ import Spacer from '../components/atoms/Spacer';
 import { EntryAnimation } from '../animation/EntryAnimation';
 import { useDispatch } from 'react-redux';
 import { formLoginRequest } from '../store/user/userActions';
+import { DefaultHoc } from '../components/hoc/DefaultHOC';
+import { useNavigation } from '@react-navigation/native';
 // import Text from '../components/Text';
 // import Spacer from '../components/Spacer';
 // import Page from '../components/Page';
 
-const LoginScreen = ({ navigation }: { navigation: any }) => {
+const LoginScreen = (props: any) => {
+  const { errorLogin, userDetails, isLoading } = props.user
   const theme = useTheme();
   const style = useThemedStyles(styles);
   const dispatch = useDispatch();
-  // const [value, setValue] = useState('')
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<any>({
-    email: "",
-    password: ""
-  })
-
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
   } = useForm<any>();
 
   const onSubmit = async (data: any) => {
-
-    if (data.email === "" && data.password === "") {
-      setError({ ...error, email: 'Email is required', password: 'Password is required' })
-      return
-    }
-    if (data.password === "") {
-      setError({ ...error, password: 'Password is required', email: "" })
-      return
-    }
     try {
-      setLoading(true)
       let response: any = await dispatch(formLoginRequest(data))
-      console.log("resp :", response)
-      if (!response.success) {
-        setError({ ...error, email: response.message, password: "" })
-      } else {
-        setError({ ...error, email: "" })
-        response.data.password === data.password ? loginSuccess(response.data) : setError({ ...error, password: "Wrong password", email: "" })
-      }
-      setLoading(false)
+      response && navigation.navigate('HomeTabs');
     } catch (error: any) {
       console.log(error)
     }
   }
-
-  const loginSuccess = (payload: any) => {
-    setError({ ...error, email: "",password: "" })
-    dispatch(loginSuccess(payload));
-    console.log("JOSS")
-    navigation.navigate('HomeTabs');
-  }
-
-
 
   return (
     <>
@@ -93,7 +64,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                 style={style.textField}
                 value={value}
                 label="Email"
-                errorText={error.email}
+                errorText={errorLogin.email}
                 onChangeText={(text) => onChange(text)}
                 static
               />
@@ -109,7 +80,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                 style={style.textField}
                 value={value}
                 label="Password"
-                errorText={error.password}
+                errorText={errorLogin.password}
                 onChangeText={(text) => onChange(text)}
                 static
               />
@@ -121,7 +92,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           <StyledButton
             title="Login"
             onPress={handleSubmit(onSubmit)}
-            // isLoading={loading}
+            isLoading={isLoading}
           />
           <Spacer s static />
           <Pressable onPress={() => navigation.goBack()}>
@@ -153,7 +124,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   );
 };
 
-export default LoginScreen;
+export default DefaultHoc(LoginScreen);
 
 const styles = (theme: any) => StyleSheet.create({
   container: {

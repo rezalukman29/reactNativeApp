@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   imageProfile: {
     width: ICON_SIZE * 1.3,
     height: ICON_SIZE * 1.3,
-    resizeMode: 'contain'
+    resizeMode: 'cover',
+    borderRadius: 25
   }
 });

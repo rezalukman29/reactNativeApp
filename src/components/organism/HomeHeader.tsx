@@ -18,9 +18,10 @@ interface HomeHeaderI {
 }
 
 const HomeHeader = ({ onSearch, user, toLoginScreen }: HomeHeaderI) => {
-  const {isLogin, userDetails } = user;
+  const { isLogin, userDetails } = user;
   const navigation = useNavigation<DrawerNavigationProp<RootStackParams>>();
   const theme = useTheme();
+  console.log
   return (
     <View
       style={{
@@ -40,9 +41,15 @@ const HomeHeader = ({ onSearch, user, toLoginScreen }: HomeHeaderI) => {
         } style={{ width: 110, height: 35, resizeMode: 'stretch' }} />
 
         <View style={{ width: 45, height: 45 }}>
-          <IconButton profilePicture uri={images.User} onPress={() => {
-            isLogin? navigation.openDrawer() : toLoginScreen()
-          }} />
+          {isLogin ?
+            <IconButton profilePicture uri={{uri: userDetails.avatar}} onPress={() => {
+              navigation.openDrawer()
+            }} />
+            :
+            <IconButton profilePicture uri={images.User} onPress={() => {
+              toLoginScreen()
+            }} />
+          }
           <Image
             source={assets.badge}
             resizeMode="contain"
@@ -62,7 +69,7 @@ const HomeHeader = ({ onSearch, user, toLoginScreen }: HomeHeaderI) => {
           marginVertical: SIZES.font,
         }}
       >
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text
             style={{
               fontFamily: FONTS.regular,
@@ -70,16 +77,17 @@ const HomeHeader = ({ onSearch, user, toLoginScreen }: HomeHeaderI) => {
               color: theme?.colors.TEXT,
             }}
           >
-            Hello, 
+            Hello,
           </Text>
           <Text
             style={{
               fontFamily: FONTS.semiBold,
               fontSize: SIZES.small,
               color: theme?.colors.PRIMARY,
+              bottom: isLogin ? 3 : 0
             }}
           >
-             rezalukman29 👋
+            {isLogin ? ' ' + userDetails.name + ' 👋': 'Please Login'} 
           </Text>
         </View>
         <Text

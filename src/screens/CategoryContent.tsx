@@ -24,10 +24,18 @@ const CategoryContentScreen = ({ route, navigation, category, fetchPlaces, place
     setSelectedCategory(route.params.categoryId);
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = fetchPlaces();
-    return unsubscribe;
-  }, [])
+  // useEffect(() => {
+  //   const unsubscribe = fetchPlaces();
+  //   return unsubscribe;
+  // }, [])
+
+  React.useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      fetchPlaces();
+    }
+    fetchData();
+  }, []);
 
   const handleSelectCategory = (id: string) => {
     setSelectedCategory(id);

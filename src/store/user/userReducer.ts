@@ -1,4 +1,5 @@
-import { LoginSuccessI, LOGIN_SUCCESS, UpdateLocationI, UPDATE_LOCATION } from "./userTypes";
+import { Action } from "../../../assets/svg";
+import { LoginErrorI, LoginRequestI, LoginSuccessI, LOGIN_ERROR, LOGIN_REQUEST, LOGIN_SUCCESS, UpdateLocationI, UPDATE_LOCATION } from "./userTypes";
 
 interface LocationPropsI {
     latitude: any;
@@ -19,10 +20,17 @@ export interface UserDetailsI {
     interest: any;
 }
 
+export interface errorLoginI {
+    email: string,
+    password: string
+}
+
 export interface UserStateI {
     location: LocationPropsI;
     userDetails: UserDetailsI;
     isLogin: boolean;
+    errorLogin: errorLoginI;
+    isLoading: boolean;
 }
 
 const UserState: UserStateI = {
@@ -43,10 +51,15 @@ const UserState: UserStateI = {
         longitude: null,
         interest: "",
     },
-    isLogin: false
+    isLogin: false,
+    errorLogin: {
+        email: "",
+        password: ""
+    },
+    isLoading: false,
 }
 
-type UserAction = UpdateLocationI | LoginSuccessI
+type UserAction = UpdateLocationI | LoginSuccessI | LoginErrorI | LoginRequestI
 
 const userReducer = (state = UserState, action: UserAction) => {
     switch (action.type) {
@@ -76,6 +89,29 @@ const userReducer = (state = UserState, action: UserAction) => {
                     interest: action.payload.interest,
                 },
                 isLogin: true,
+                isLoading: false,
+                errorLogin: {
+                    email: "",
+                    password: ""
+                }
+            };
+
+        case LOGIN_REQUEST:
+            return {
+                ...state,
+                isLoading: action.payload
+            };
+
+        case LOGIN_ERROR:
+            console.log("REDUCER :", action.error)
+            return {
+                ...state,
+                errorLogin: {
+                    email: action.error.email,
+                    password: action.error.password,
+                },
+                isLogin: false,
+                isLoading: false
             };
 
         default:

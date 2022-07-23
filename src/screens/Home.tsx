@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, Button } from 'react-native';
 import { EntryAnimation } from '../animation/EntryAnimation';
 import Spacer from '../components/atoms/Spacer';
 import StyledText from '../components/atoms/text/Label';
@@ -11,6 +11,13 @@ import { RootStackParams } from '../navigation/AppTabNavigator';
 import { FONTS, SIZES } from '../theme/config';
 import useTheme from '../theme/useTheme';
 import useThemedStyles from '../theme/useThemedStyles';
+import { getLocation, getLocationPermission } from '../utils/function';
+import RNLocation from 'react-native-location';
+
+RNLocation.configure({
+  distanceFilter: 5.0
+})
+
 
 // type Props = NativeStackScreenProps<RootStackParams, 'HomeStack'>
 interface Props extends NativeStackScreenProps<RootStackParams, 'HomeStack'> {
@@ -25,11 +32,21 @@ const HomeScreen = ({ navigation, category, fetchResources, updateLocation, user
 
   const theme = useTheme();
   const style = useThemedStyles(styles);
+  const { userDetails, isLogin } = user;
 
   React.useEffect(() => {
-    const unsubscribe = fetchResources();
-    return unsubscribe;
-  }, [])
+    async function fetchData() {
+      // You can await here
+      fetchResources();
+      const response = await getLocationPermission();
+      console.log(response)
+      if (response) {
+        const location = await getLocation()
+      }
+    }
+    fetchData();
+  }, [isLogin]);
+  
 
   const handleSearch = (payload: any) => {
     console.log(payload)
@@ -42,12 +59,12 @@ const HomeScreen = ({ navigation, category, fetchResources, updateLocation, user
   const handleToCategoryContent = (payload: any) => {
     navigation.push('CategoryContent', payload)
   }
-console.log(user)
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <EntryAnimation index={0}>
-          <HomeHeader onSearch={handleSearch} user={user} toLoginScreen={toLoginScreen}/>
+          <HomeHeader onSearch={handleSearch} user={user} toLoginScreen={toLoginScreen} />
           <Spacer s />
           <CategoryList category={category} toCategoryContent={handleToCategoryContent} />
         </EntryAnimation>

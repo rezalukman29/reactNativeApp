@@ -22,6 +22,6 @@ export interface LoginSuccessI {
 
 export interface LoginErrorI {
     type: typeof LOGIN_ERROR;
-    payload: any
+    error: any
 }
 

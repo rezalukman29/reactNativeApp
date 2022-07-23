@@ -33,6 +33,12 @@
 //     return result
 // }
 
+import RNLocation from 'react-native-location';
+
+RNLocation.configure({
+    distanceFilter: 5.0
+})
+
 export function getRandomLightColor() {
     var letters = 'BCDEF'.split('');
     var color = '#';
@@ -40,6 +46,45 @@ export function getRandomLightColor() {
         color += letters[Math.floor(Math.random() * letters.length)];
     }
     return color;
+}
+
+
+export const getLocationPermission = async () => {
+    let permission = await RNLocation.checkPermission({
+        ios: 'whenInUse', // or 'always'
+        android: {
+            detail: 'coarse' // or 'fine'
+        }
+    });
+    if (!permission) {
+        permission = await RNLocation.requestPermission({
+            ios: "whenInUse",
+            android: {
+                detail: "coarse",
+                rationale: {
+                    title: "We need to access your location",
+                    message: "We use your location to show where you are on the map",
+                    buttonPositive: "OK",
+                    buttonNegative: "Cancel"
+                }
+            }
+        })
+    }
+    return permission
+}
+
+export const getLocation = async () => {
+    try {
+        let location: any;
+        location = await RNLocation.getLatestLocation({ timeout: 100 })
+        return Promise.resolve({
+            latitude: location.latitude,
+            longitudeL: location.longitude
+        })
+    } catch (error: any) {
+
+    }
+
 }
 
 
