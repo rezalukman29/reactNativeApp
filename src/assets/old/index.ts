@@ -11,6 +11,8 @@ import BeautifullMalang from './icon/BeautifullMalang.png'
 import WanderDark from './icon/WanderDark.png'
 import WanderLight from './icon/WanderLight.png'
 import WonderfullIndonesia from './icon/wonderfullIndonesia.png'
+import LoginTravel from './icon/LoginTravel.png';
+import Teenager from './icon/teenager.png'
 
 const images = {
     Hotel,
@@ -25,7 +27,9 @@ const images = {
     BeautifullMalang,
     WanderLight,
     WanderDark,
-    WonderfullIndonesia
+    WonderfullIndonesia,
+    LoginTravel,
+    Teenager
 };
 
 export default images

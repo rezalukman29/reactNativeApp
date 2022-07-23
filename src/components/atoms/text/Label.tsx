@@ -12,7 +12,7 @@ interface LabelProps {
     children: any
 }
 
-const StyledText = ({ size, color, weight, children }: LabelProps) => {
+const StyledText = ({ size, color, weight, children, ...restOfProps }: LabelProps) => {
     // const [loaded] = useFonts({
     //     InterBold: require('../../../assets/assets/fonts/Inter-Bold.ttf'),
     //     InterSemiBold: require("../../../assets/assets/fonts/Inter-SemiBold.ttf"),
@@ -31,7 +31,9 @@ const StyledText = ({ size, color, weight, children }: LabelProps) => {
                 color: color,
                 fontFamily: weight,
                 textAlign: 'justify'
-            }}>{children}</Text>
+            }}
+            {...restOfProps}
+            >{children}</Text>
         </View>
     );
 };

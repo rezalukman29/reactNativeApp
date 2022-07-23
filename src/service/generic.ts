@@ -27,4 +27,9 @@ export default class GenericService {
         const res = await axios.get(`${this.url}/${latitude}/${longitude}`);
         return res.data;
     }
+
+    async getByParams(payload: any): Promise<any> {
+        const res = await axios.get(`${this.url}/${payload}`);
+        return res.data;
+    }
 }

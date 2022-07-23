@@ -9,13 +9,16 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native'
 import ActivityIcon from '../../../assets/icons/ActivityIcon'
+import EmailIcon from '../../../assets/icons/EmailIcon'
+import HomeIcon from '../../../assets/icons/HomeIcon'
 import { width } from '../../../theme/config'
 import useTheme from '../../../theme/useTheme'
 import useThemedStyles from '../../../theme/useThemedStyles'
 
 type Props = React.ComponentProps<typeof TextInput> & {
-    label: string
-    errorText?: string | null
+    label: string;
+    errorText?: string | null;
+    static?: boolean;
 }
 
 const TextField: React.FC<Props> = (props) => {
@@ -26,6 +29,7 @@ const TextField: React.FC<Props> = (props) => {
         style,
         onBlur,
         onFocus,
+
         ...restOfProps
     } = props
     const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -46,8 +50,9 @@ const TextField: React.FC<Props> = (props) => {
         }).start()
     }, [focusAnim, isFocused, value])
 
-    let color = isFocused ? theme?.colors.PRIMARY : '#9D9D9D'
-    let borderWidth = isFocused ? 2: 1
+    let color = isFocused && props.static ? '#FFF' : isFocused && !props.static ? theme?.colors.PRIMARY : '#FFFAFA'
+
+    let borderWidth = isFocused ? 2 : 0.5
     if (errorText) {
         color = '#B00020'
     }
@@ -73,6 +78,7 @@ const TextField: React.FC<Props> = (props) => {
                     setIsFocused(true)
                     onFocus?.(event)
                 }}
+
             >
             </TextInput>
 
@@ -81,6 +87,7 @@ const TextField: React.FC<Props> = (props) => {
                     style={[
                         styling.labelContainer,
                         {
+                            backgroundColor: props.static ? theme?.colors.ROOT : theme?.colors.BACKGROUND,
                             transform: [
                                 {
                                     scale: focusAnim.interpolate({
@@ -91,21 +98,21 @@ const TextField: React.FC<Props> = (props) => {
                                 {
                                     translateY: focusAnim.interpolate({
                                         inputRange: [0, 1],
-                                        outputRange: [14, -12],
+                                        outputRange: [12, -12],
                                     }),
                                 },
                                 {
                                     translateX: focusAnim.interpolate({
                                         inputRange: [0, 1],
-                                        outputRange: [6, 0],
+                                        outputRange: [12, 0],
                                     }),
                                 },
                             ],
                         },
                     ]}
                 >
-                    <View style={{ flexDirection: 'row' }}>
-                        <ActivityIcon size={20} color={color} />
+                    <View style={{ flexDirection: 'row'}}>
+                        <EmailIcon size={20} color={color} />
                         <Text
                             style={[
                                 styling.label,
@@ -127,7 +134,7 @@ const TextField: React.FC<Props> = (props) => {
 
 const styles = (theme: any) => StyleSheet.create({
     input: {
-        padding: 24,
+        paddingHorizontal: 12,
         borderRadius: 8,
         fontSize: 16,
         width: width * .8,
@@ -136,12 +143,11 @@ const styles = (theme: any) => StyleSheet.create({
     labelContainer: {
         position: 'absolute',
         paddingHorizontal: 8,
-        backgroundColor: 'white',
     },
     label: {
         fontFamily: 'Avenir-Heavy',
         fontSize: 16,
-        paddingLeft: 8
+        paddingLeft: 8,
     },
     error: {
         marginTop: 4,

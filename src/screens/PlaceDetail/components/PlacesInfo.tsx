@@ -23,6 +23,7 @@ import ActivityIcon from "../../../assets/icons/ActivityIcon";
 import Spacer from "../../../components/atoms/Spacer";
 import BackSecondaryIcon from "../../../assets/icons/BackSecondaryIcon";
 import { useNavigation } from "@react-navigation/native";
+import StyledButton from "../../../components/atoms/button";
 
 
 export const AnimatedFlatList: typeof FlatList = Animated.createAnimatedComponent(
@@ -117,7 +118,6 @@ const PlacesInfo = forwardRef<FlatList, Props>((props, ref) => {
             </View>
           </EntryAnimation>
         </View>
-
         {/* Location */}
         {/* <EntryAnimation index={4}>
           <View style={{ width: width, height: width * 0.66, paddingBottom: 8 }}>
@@ -143,6 +143,7 @@ const PlacesInfo = forwardRef<FlatList, Props>((props, ref) => {
         </EntryAnimation> */}
         <View style={{ flexDirection: 'column', padding: SPACING }}>
           <StyledText size={SIZES.large} color={theme?.colors.PRIMARY} weight={FONTS.semiBold}>Nearby Places</StyledText>
+        <StyledButton title="Login" onPress={() => {}}/>
         </View>
         {/* <TopCulinairy /> */}
         {/* <TopCulinairy /> */}

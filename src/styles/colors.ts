@@ -23,7 +23,8 @@ const common = {
     SUCCESS: EMERALD,
     ERROR: ALIZARIN,
     TRANS_WHITE: '#FFFFFF50',
-    TRANS_BLACK: 'rgba(0,0,0,0.45)'
+    TRANS_BLACK: 'rgba(0,0,0,0.45)',
+    ROOT: BEST_BLUE
 };
 
 const light = {

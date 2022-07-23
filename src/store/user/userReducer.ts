@@ -1,4 +1,4 @@
-import { UpdateLocationI, UPDATE_LOCATION } from "./userTypes";
+import { LoginSuccessI, LOGIN_SUCCESS, UpdateLocationI, UPDATE_LOCATION } from "./userTypes";
 
 interface LocationPropsI {
     latitude: any;
@@ -9,13 +9,14 @@ interface LocationPropsI {
 }
 
 export interface UserDetailsI {
+    id: string;
     name: string;
     username: string;
     email: string;
     avatar: string;
     latitude: any;
     longitude: any;
-    preference: any;
+    interest: any;
 }
 
 export interface UserStateI {
@@ -33,18 +34,19 @@ const UserState: UserStateI = {
         country: ""
     },
     userDetails: {
+        id: "",
         name: "",
         username: "",
         email: "",
         avatar: "",
-        latitude: "",
-        longitude: "",
-        preference: "",
+        latitude: null,
+        longitude: null,
+        interest: "",
     },
     isLogin: false
 }
 
-type UserAction = UpdateLocationI 
+type UserAction = UpdateLocationI | LoginSuccessI
 
 const userReducer = (state = UserState, action: UserAction) => {
     switch (action.type) {
@@ -59,9 +61,25 @@ const userReducer = (state = UserState, action: UserAction) => {
                     country: action.payload.country
                 }
             };
- 
-                default:
-                    return state;
+
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                userDetails: {
+                    id: action.payload.id,
+                    name: action.payload.name,
+                    username: action.payload.username,
+                    email: action.payload.email,
+                    avatar: action.payload.avatar,
+                    latitude: action.payload.latitude,
+                    longitude: action.payload.longitude,
+                    interest: action.payload.interest,
+                },
+                isLogin: true,
+            };
+
+        default:
+            return state;
     }
 }
 

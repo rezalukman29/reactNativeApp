@@ -14,10 +14,11 @@ type Props = {
   height?: number;
   style?: ViewStyle;
   horizontal?: boolean;
+  static?: boolean
 };
 
 const Spacer = (props: Props) => {
-  const {style = {}, horizontal = false} = props;
+  const {style = {}, horizontal = false,} = props;
   const theme = useTheme();
   let space = Spacing.xxl;
   if (props.height) {
@@ -43,7 +44,7 @@ const Spacer = (props: Props) => {
       style={[
         style,
         {
-          backgroundColor: theme?.colors.BACKGROUND,
+          backgroundColor: props.static ? theme?.colors.PRIMARY : theme?.colors.BACKGROUND,
           height: horizontal ? '100%' : space,
           width: horizontal ? space : '100%',
         },
